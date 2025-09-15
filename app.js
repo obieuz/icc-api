@@ -9,6 +9,7 @@ const server = app.listen(port, () => console.log(`Example app listening on port
 app.get("/fetch_trains", async (req,res)=>{
   const station_name = req.query.station_name;
   const response = await fetch(`https://www.intercity.pl/station/get/?q=${station_name}`);
+  console.log(response);
     const data = await response.json();
     if (data && data.length > 0) {
         return res.json(data);
