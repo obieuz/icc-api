@@ -10,7 +10,11 @@ app.get("/fetch_trains", async (req,res)=>{
   const station_name = req.query.station_name;
   const response = await fetch(`https://www.intercity.pl/station/get/?q=${station_name}`);
   console.log(response);
-  response.body.text().then(console.log);
+  const responseBody = await response.text();
+  console.log(responseBody);
+  if (!response.ok) {
+      return res.status(500).json({ error: 'Failed to fetch data from external API' });
+  }
   const data = await response.json();
   if (data && data.length > 0) {
       return res.json(data);
