@@ -10,11 +10,11 @@ app.get("/fetch_trains", async (req,res)=>{
   const station_name = req.query.station_name;
   const response = await fetch(`https://www.intercity.pl/station/get/?q=${station_name}`);
   console.log(response);
-  console.log(response.body.text());
-    const data = await response.json();
-    if (data && data.length > 0) {
-        return res.json(data);
-    } else {
+  response.body.text().then(console.log);
+  const data = await response.json();
+  if (data && data.length > 0) {
+      return res.json(data);
+  } else {
         return res.status(404).json({ error: 'Station not found' });
     }
 })
