@@ -6,6 +6,17 @@ app.get("/", (req, res) => res.type('html').send(html));
 
 const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
+app.get("/fetch_trains", async (req,res)=>{
+  const station_name = req.query.station_name;
+  const response = await fetch(`https://www.intercity.pl/station/get/?q=${station_name}`);
+    const data = await response.json();
+    if (data && data.length > 0) {
+        return res.json(data);
+    } else {
+        return res.status(404).json({ error: 'Station not found' });
+    }
+})
+
 server.keepAliveTimeout = 120 * 1000;
 server.headersTimeout = 120 * 1000;
 
